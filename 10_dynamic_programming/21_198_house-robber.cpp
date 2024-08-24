@@ -115,3 +115,24 @@ public:
         return dp(nums, 0);
     }
 };
+
+
+
+// 2024年8月4日
+// 17:27--17:34
+// dp[i] 从 0~i-1中偷
+// dp[i][0]:不偷第i间，dp[i][1]:偷第i间
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        vector<vector<int>> dp(nums.size()+1, vector<int>(2, 0));
+        for(int i=1; i<=nums.size(); i++) {
+            dp[i][0] = std::max(dp[i-1][0], dp[i-1][1]);
+            if(i>=2)
+                dp[i][1] = std::max(dp[i-1][0] + nums[i-1], std::max(dp[i-2][0], dp[i-2][1])+nums[i-1]);
+            else
+                dp[i][1] = dp[i-1][0] + nums[i-1];
+        }
+        return std::max(dp.back()[0], dp.back()[1]);
+    }
+};

@@ -53,6 +53,9 @@ public:
 
 // 13:15--13:28
 // 拓扑排序 dfs
+// 那么为什么后序遍历的反转结果就是拓扑排序呢？
+// 二叉树的后序遍历是什么时候？遍历完左右子树之后才会执行后序遍历位置的代码。
+// 换句话说，当左右子树的节点都被装到结果列表里面了，根节点才会被装进去。
 class Solution_L1_M1 {
     vector<bool> onPath;
     vector<bool> visited;
@@ -80,6 +83,8 @@ private:
             traverse(graph, c); // dfs
         }
         // 后序位置
+        // 1-->2-->3，从后往前遍历（子节点是被依赖的课程），遍历到最底层
+        // 最低层的是优先级最高的课程，先push_back后再push_back之前的课程
         result.push_back(s);                                        // ***
         onPath[s] = false;
     }

@@ -88,3 +88,34 @@ public:
         return result;
     }
 };
+
+
+// 2024年8月5日
+// 20:29--20:36
+class Solution {
+    struct cmp {
+        bool operator()(const pair<int, int>& a, const pair<int, int>&b) {
+            return a.second > b.second;
+        }
+    };
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> count;
+        for(auto num : nums) {
+            count[num]++;
+        }
+        priority_queue<pair<int,int>, vector<pair<int, int>>, cmp> pq;
+        for(auto pairs : count) {
+            pq.push(pairs);
+            if(pq.size() > k) {
+                pq.pop();
+            }
+        }
+        vector<int> res(k);
+        for(int i=0; i<k; i++) {
+            res[k-i-1] = pq.top().first;
+            pq.pop();
+        }
+        return res;
+    }
+};

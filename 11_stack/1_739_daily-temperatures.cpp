@@ -202,3 +202,24 @@ public:
         return result;
     }
 };
+
+
+// 2024年8月1日
+// 21:58--22:06
+// 知道用单调栈，尝试自己写出来
+// 栈内减小
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        vector<int> res(temperatures.size(), 0);
+        stack<int> stk;
+        for(int i=0; i<temperatures.size(); i++) {
+            while(!stk.empty() && temperatures[i] > temperatures[stk.top()]) {
+                res[stk.top()] = i - stk.top(); // 几天后 i - stk.top()
+                stk.pop();
+            }
+            stk.push(i);
+        }
+        return res;
+    }
+};

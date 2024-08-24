@@ -174,8 +174,7 @@ int LowerBound(vector<int> & nums, int target)
             right = middle;
         }
     }
-    // return (nums[left] >= target) ? left : -1;  // 防止出错
-    return left;
+    return left >= nums.size() ? -1 : left;
 }
 
 int minSubArrayLen5(int target, vector<int> & nums)

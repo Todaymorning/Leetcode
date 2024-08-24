@@ -124,3 +124,29 @@ public:
         return result;
     }
 };
+
+
+// 2024年7月28日
+// 13:52--14:03
+// 左边界升序，右边界降序
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        vector<vector<int>> res;
+        sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>&b){
+            if(a[0] == b[0]) return  a[1] > b[1];
+            else return a[0] < b[0];
+        });
+        res.emplace_back(intervals[0]);
+        for(int i=0; i<intervals.size(); i++) {
+            if(intervals[i][1] < res.back()[1]) continue;
+            if(intervals[i][0] <= res.back()[1] && intervals[i][1] > res.back()[1]) {
+                res.back()[1] = intervals[i][1];
+            }
+            else if(intervals[i][0] > res.back()[1]) {
+                res.emplace_back(intervals[i]);
+            }
+        }
+        return res;
+    }
+};

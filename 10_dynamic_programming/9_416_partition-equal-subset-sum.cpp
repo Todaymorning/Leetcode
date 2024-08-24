@@ -112,3 +112,42 @@ public:
         return dp[sum];
     }
 };
+
+
+
+// 2024年8月1日
+// 21:06--21:25
+// 0 1 背包
+// 给一个可装载重量为 sum / 2 的背包和 N 个物品，每个物品的重量为 nums[i]。
+// 现在让你装物品，是否存在一种装法，能够恰好将背包装满？
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int size = nums.size();
+        int sum = 0;
+        for(int i=0; i<size; i++) {
+            sum += nums[i];
+        }
+        if(sum % 2 == 1) return false;
+        sum /= 2;
+        // dp[i][j]，前 i 件物体能不能装满大小为j的背包
+        vector<vector<int>> dp(size+1, vector<int>(sum + 1, false));
+        // for(int j=1; j<sum+1; j++) {
+        //     dp[0][j] = false;    // 没有物体，填不满背包
+        // }
+        for(int i=0; i<size+1; i++) {
+            dp[i][0] = true;    // 背包空间为零，肯定可以填满
+        }
+        for(int i=1; i<size+1; i++) {   // 先取一个物体，往背包里放，背包空间不断变大
+            for(int j=1; j<sum+1; j++) {    // 即先遍历物体再遍历背包空间
+                if(nums[i-1] > j) { // *** 背包空间放不下
+                    dp[i][j] = dp[i-1][j];  // 看前 i - 1 个物体，即上一行能不能
+                }
+                else {
+                    dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]];  // *** 上一行
+                }
+            }
+        }
+        return dp[size][sum];
+    }
+};

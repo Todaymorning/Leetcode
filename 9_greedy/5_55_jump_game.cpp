@@ -153,13 +153,29 @@ class Solution {
 public:
     bool canJump(vector<int>& nums) {
         int size = nums.size();
-        if(size == 0) return true;
+        if(size == 0) return true;      // 2024年8月1日：可以不要
         int right = 0;
         int temp;
         for(int i=0; i<=right; i++) {
             temp = i + nums[i];
             if(temp > right) right = temp;
             if(right >= size-1) return true;
+        }
+        return false;
+    }
+};
+
+
+// 2024年8月1日
+// 22:34--22:38
+// 遇到 [0] 错误
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int max = nums[0];
+        for(int i=0; i<=max; i++) {
+            max = std::max(max, i+nums[i]);
+            if(max >= nums.size() - 1) return true; // nums.size() - 1  ***
         }
         return false;
     }

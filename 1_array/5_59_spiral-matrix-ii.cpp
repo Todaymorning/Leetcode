@@ -25,6 +25,11 @@ using namespace std;
 // 示例:
 // 输入: 3 输出: [ [1, 2, 3], [ 8, 9, 4 ], [ 7, 6, 5 ] ]
 
+
+// 底下的都不推荐，推荐参考 螺旋矩阵
+// D:\Learning\Leetcode\21_2\3_54_spiral-matrix.cpp
+
+
 vector<vector<int>> generateMatrix1(int n)
 {
     vector<vector<int>> result(n, vector<int>(n, 0));

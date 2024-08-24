@@ -119,6 +119,6 @@ public:
                 dp[i] += dp[i-j];
             }
         }
-        return dp[0];
+        return dp[n];
     }
 };

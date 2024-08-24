@@ -176,7 +176,7 @@ public:
         // 记录每个柱子左边柱子最大高度
         maxLeft[0] = height[0];
         for (int i = 1; i < size; i++) {
-            maxLeft[i] = max(height[i], maxLeft[i - 1]);
+            maxLeft[i] = max(height[i], maxLeft[i - 1]);    // 本身参与比较
         }
         // 记录每个柱子右边柱子最大高度
         maxRight[size - 1] = height[size - 1];
@@ -185,7 +185,7 @@ public:
         }
         // 求和
         int sum = 0;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {    // 也可以是 [1,size-1]，首尾形成不了凹槽
             int count = min(maxLeft[i], maxRight[i]) - height[i];
             // 上面的判断可以保证 maxLeft[i] maxRight[i] 都大于等于 height[i]
             if (count > 0) sum += count;        // 判断可以去掉     // ***
@@ -196,6 +196,9 @@ public:
 
 
 
+// 单调栈适用范围：求一维数组任意一个元素左边或右边第一个比自己大或比自己小的元素
+// 每日温度、接雨水
+// 栈内的数据单调递增或递减，一旦新的元素不满足该要求，则需要进行处理
 // 21:19--21:30--21:46(写错)--22:00
 // 看过 D3 关于单调栈的图
 class Solution {
@@ -206,15 +209,46 @@ public:
         int result = 0;
         for(int i=0; i<size; i++) {
             while(!s.empty() && height[i] > height[s.top()]) {
-                int mid = s.top();
+                int mid = s.top();  // 可以形成凹槽的地方
                 s.pop();
                 if(!s.empty()) {    // 两高夹一矮，有凹槽
                     int h = std::min(height[s.top()], height[i]) - height[mid];
                     result += h * (i - s.top() - 1);
                 }
             }
-            s.push(i);
+            s.push(i);      // ***
         }
         return result;
+    }
+};
+
+
+class Solution_D3_copy {
+public:
+    int trap(vector<int>& height) {
+        if (height.size() <= 2) return 0; // 可以不加
+        stack<int> st; // 存着下标，计算的时候用下标对应的柱子高度
+        st.push(0);
+        int sum = 0;
+        for (int i = 1; i < height.size(); i++) {
+            if (height[i] < height[st.top()]) {     // 情况一
+                st.push(i);
+            } if (height[i] == height[st.top()]) {  // 情况二
+                st.pop(); // 其实这一句可以不加，效果是一样的，但处理相同的情况的思路却变了。
+                st.push(i);
+            } else {                                // 情况三
+                while (!st.empty() && height[i] > height[st.top()]) { // 注意这里是while
+                    int mid = st.top();
+                    st.pop();
+                    if (!st.empty()) {
+                        int h = min(height[st.top()], height[i]) - height[mid];
+                        int w = i - st.top() - 1; // 注意减一，只求中间宽度
+                        sum += h * w;
+                    }
+                }
+                st.push(i);
+            }
+        }
+        return sum;
     }
 };

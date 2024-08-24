@@ -186,7 +186,7 @@ public:
         vector<vector<vector<int>>> dp(size, vector<vector<int>>(max_k + 1, vector<int>(2, 0)));    // k + 1，防止 [k-1] < 0
         for(int i=0; i<size; i++) {
             for(int k=1; k<=max_k; k++) {   // k = 1，这里的k正序倒序都可以，因为最外层循环是 i，dp[i]只依赖dp[i-1]
-                if(i == 0 ) {
+                if(i == 0 ) {   // *** 每个k都需要赋值
                     dp[i][k][0] = 0;
                     dp[i][k][1] = -prices[i];
                 }

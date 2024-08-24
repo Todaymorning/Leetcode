@@ -62,3 +62,23 @@ public:
         return false;
     }
 };
+
+
+
+
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        // 2024年8月5日
+        // 20:41--20:48
+        ListNode *slow, *fast;
+        fast = head;
+        slow = head;
+        while(fast != nullptr && fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if(fast == slow) return true;
+        }
+        return false;
+    }
+};

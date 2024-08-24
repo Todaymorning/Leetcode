@@ -142,3 +142,28 @@ public:
         return result;
     }
 };
+
+
+
+// 不会，看 D1
+// 2024年8月1日
+// 21:39--21:44
+class Solution {
+public:
+    vector<int> partitionLabels(string s) {
+        int hash[26] = {0};
+        for(int i=0; i<s.size(); i++) {
+            hash[s[i] - 'a'] = i;
+        }
+        vector<int> res;
+        int left = 0, right = 0;
+        for(int i=0; i<s.size(); i++) {
+            right = std::max(right, hash[s[i] - 'a']);
+            if(i == right) {
+                res.emplace_back(right - left + 1);
+                left = right + 1;
+            }
+        }
+        return res;
+    }
+};

@@ -179,3 +179,38 @@ public:
         return -1;
     }
 };
+
+// 23:16
+// left mid gap right
+// left gap mid right
+// 有序的判断
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        // [left, right]
+        int left = 0, right = nums.size()-1;
+        while(left <= right) {
+            int mid = left + (right - left)/2;
+            if(nums[mid] == target) return mid;
+            // 断崖在 mid 右边，[left, mid]有序
+            if(nums[mid] >= nums[left]) {   // *** =
+                if(target >= nums[left] && target < nums[mid]) {    // mid 已经比较过了
+                    right = mid - 1;
+                }
+                else {
+                    left = mid + 1;
+                }
+            }
+            else {
+                // 断崖在 mid 左边 [mid, right]有序
+                if(target <= nums[right] && target > nums[mid]) {
+                    left = mid + 1;
+                }
+                else {
+                    right = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+};

@@ -39,6 +39,7 @@ using std::string;
 
 // 10:17--10:25--10:27
 // 滑动窗口
+// 右边的字符加入hash表，while处理直到窗口满足条件，处理结果
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {

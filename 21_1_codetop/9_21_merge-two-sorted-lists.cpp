@@ -42,7 +42,7 @@ struct ListNode
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode* dummyH = new ListNode();
+        ListNode* dummyH = new ListNode();  // *** 虚拟头节点
         ListNode* cur = dummyH;
         while(list1 != nullptr && list2!= nullptr) {
             if(list1->val < list2->val) {
